@@ -65,6 +65,7 @@ async function runGeneration() {
             return r;
           }
           let final = finalEnders.join(" ");
+          final = final.replace(new RegExp("_", "g"), "");
           if (final.endsWith(",")) {
             if (final.length > 2) {
               final = final.slice(0, final.length - 1) + ".";
