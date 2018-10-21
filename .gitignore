@@ -1,6 +1,6 @@
 ml5/*
 checkpoints/*
-models/*
+#models/*
 training/*
 node_modules/*
 logs/*
