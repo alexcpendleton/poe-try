@@ -7,7 +7,6 @@ const lstm = new ml5.LSTMGenerator(modelDirectoryPath, modelLoaded);
 
 // When the model is loaded
 function modelLoaded() {
-  console.log("Model Loaded!", lstm, arguments);
   runGeneration();
 }
 function randomInt(min, max) {
@@ -35,7 +34,7 @@ function popBadEnders(array) {
 }
 async function runGeneration() {
   const times = 1;
-  var length = 256;
+  var length = randomInt(512, 2048);
   for (let index = 0; index < times; index++) {
     let options = {
       seed: randomSeed(),
@@ -43,13 +42,16 @@ async function runGeneration() {
       temperature: 0 // 0.7 // Math.random()
     };
     var results = await lstm.generate(options);
-    console.log(results);
+
     if (document) {
       let resultLines = results.split("\n").map((text, index, array) => {
         let length = array.length;
         let r = text;
         if (r.indexOf(" ") === 0) {
           r = "  " + r.trim();
+        }
+        if (r.trim().length < 5) {
+          return "";
         }
         if (true) {
           let words = r.split(" ");
@@ -62,13 +64,12 @@ async function runGeneration() {
           if (finalEnders.length === 0) {
             return r;
           }
-          console.log("finalEnders", words, finalEnders);
           let final = finalEnders.join(" ");
           if (final.endsWith(",")) {
             if (final.length > 2) {
               final = final.slice(0, final.length - 1) + ".";
             } else {
-              final = "------";
+              final = "";
             }
           }
           return final;
@@ -76,7 +77,7 @@ async function runGeneration() {
         return r;
       });
 
-      document.getElementById("put-text-here").innerText += resultLines.join(
+      document.getElementById("put-text-here").innerText = resultLines.join(
         "\n"
       );
     }
