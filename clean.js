@@ -69,5 +69,23 @@ lines = lines.filter(function(line) {
   }
   return true;
 });
-lines = lines.map(i => i.trimLeft());
-fs.writeFileSync("./data/out.txt", lines.join("\n"));
+lines = lines.map(i => {
+  let result = i;
+
+  result = result
+    .slice(2) // remove first indentation, the rest is fun
+    .replace("[", "")
+    .replace("]", "")
+    .replace('"', "")
+    .replace("(", "")
+    .replace(")", "")
+    .replace('"', "")
+    .replace("_", "");
+  return result;
+});
+fs.writeFileSync("./training/input.txt", lines.join("\n"));
+fs.writeFileSync("./data/lines.json", JSON.stringify(lines, null, 1));
+fs.writeFileSync(
+  "./data/windowlines.js",
+  "window.lines = " + JSON.stringify(lines, null, 1) + ";"
+);

@@ -1,0 +1,6 @@
+ml5/*
+checkpoints/*
+models/*
+training/*
+node_modules/*
+logs/*
