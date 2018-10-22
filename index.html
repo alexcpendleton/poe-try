@@ -27,6 +27,21 @@
   <section class="about">
     <a href="https://github.com/alexcpendleton/poe-try">find out more about poe-try</a>
   </section>
+  <script type="text/javascript">
+    const modelDirectoryPath = "models/training";
+    const lstm = new ml5.LSTMGenerator(modelDirectoryPath, modelLoaded);
+
+    // When the model is loaded
+    async function modelLoaded() {
+      const target = document.getElementById("put-text-here");
+      let p = new PoeTry({
+        lstm: lstm,
+        seeds: window.lines
+      });
+      let text = await p.run();
+      target.innerText = text;
+    }
+  </script>
 </body>
 
 </html>
