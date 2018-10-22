@@ -1,8 +1,3 @@
-// global.window = {};
-// global.XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-// const ml5 = require("ml5");
-//const modelDirectoryPath = "file://" + __dirname + "/models/training/";
-
 function PoeTry({ lstm, seeds, debug }) {
   if (debug) {
     console.log("PoeTry instatiated", this, arguments);

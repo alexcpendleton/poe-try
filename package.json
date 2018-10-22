@@ -6,12 +6,10 @@
   "scripts": {
     "prep": "source ml5/bin/activate && yarn clean && yarn train",
     "clean": "node clean.js",
-    "train": "python ../training-lstm/train.py --data_dir=training",
-    "train2": "python ../training-lstm/train.py --data_dir=training --seq_length 12",
-    "train3": "python ../training-lstm/train.py --data_dir=training --seq_length 6"
+    "train": "python ../training-lstm/train.py --data_dir=training"
   },
   "author": "Alex Pendleton <alexcpendleton@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "ml5": "^0.1.1",
     "window": "^4.2.5",
