@@ -3,7 +3,10 @@
 // const ml5 = require("ml5");
 //const modelDirectoryPath = "file://" + __dirname + "/models/training/";
 
-function PoeTry({ lstm, seeds }) {
+function PoeTry({ lstm, seeds, debug }) {
+  if (debug) {
+    console.log("PoeTry instatiated", this, arguments);
+  }
   function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
@@ -30,6 +33,9 @@ function PoeTry({ lstm, seeds }) {
   async function run() {
     const times = 1;
     let length = randomInt(512, 2048);
+    if (debug) {
+      console.log("generating", { length, times });
+    }
     let results = [];
     for (let index = 0; index < times; index++) {
       let options = {
@@ -70,8 +76,16 @@ function PoeTry({ lstm, seeds }) {
       });
       results.push(resultLines.join("\r\n"));
     }
+    if (debug) {
+      console.log("run finished", { length, times, results });
+    }
     return results;
   }
   this.run = run;
   return this;
 }
+try {
+  if (exports !== undefined) {
+    exports.PoeTry = PoeTry;
+  }
+} catch (ex) {}

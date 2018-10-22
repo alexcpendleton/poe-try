@@ -21,7 +21,7 @@
     > but poe-try appreciates your patience. 
     > :)</pre>
   </section>
-  <script src="index.js" type="text/javascript"></script>
+  <script src="PoeTry.js" type="text/javascript"></script>
   <script src="data/windowlines.js" type="text/javascript"></script>
 
   <section class="about">
@@ -29,14 +29,17 @@
   </section>
   <script type="text/javascript">
     const modelDirectoryPath = "models/training";
+    console.log("Loading model...")
     const lstm = new ml5.LSTMGenerator(modelDirectoryPath, modelLoaded);
 
     // When the model is loaded
     async function modelLoaded() {
+      console.log("Model loaded!")
       const target = document.getElementById("put-text-here");
       let p = new PoeTry({
         lstm: lstm,
-        seeds: window.lines
+        seeds: window.lines,
+        debug: true
       });
       let text = await p.run();
       target.innerText = text;
