@@ -30,9 +30,10 @@ function PoeTry({ lstm, seeds, debug }) {
     });
     return result;
   }
-  async function run() {
-    const times = 1;
-    let length = randomInt(512, 2048);
+  async function run({ times = 1, length = -1 } = {}) {
+    if (length === -1) {
+      length = randomInt(256, 1024);
+    }
     if (debug) {
       console.log("generating", { length, times });
     }
@@ -74,6 +75,9 @@ function PoeTry({ lstm, seeds, debug }) {
         }
         return final;
       });
+      if (resultLines[0].length === 0) {
+        resultLines.shift();
+      }
       results.push(resultLines.join("\r\n"));
     }
     if (debug) {
