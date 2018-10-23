@@ -33,9 +33,11 @@ function PoeTry({ lstm, seeds, debug }) {
       console.log("generating", { length, times });
     }
     let results = [];
+    let last = randomSeed();
     for (let index = 0; index < times; index++) {
+      let seed = last;
       let options = {
-        seed: randomSeed(),
+        seed: seed,
         length: length, // randomInt(25, 50),
         temperature: 0 // 0.7 // Math.random()
       };
@@ -46,14 +48,11 @@ function PoeTry({ lstm, seeds, debug }) {
         if (r.indexOf(" ") === 0) {
           r = "  " + r.trim();
         }
-        if (r.trim().length < 5) {
-          return "";
-        }
         let words = r.split(" ");
         if (words.length < 1) {
           return "";
         }
-        // Remove the last word because it's usually garbage
+        // Remove the last word because it's usually not a complete word
         let popped = words.pop();
         let finalEnders = popBadEnders(words);
         if (finalEnders.length === 0) {
@@ -68,12 +67,16 @@ function PoeTry({ lstm, seeds, debug }) {
             final = "";
           }
         }
+        if (final.trim().length < 5) {
+          final = "";
+        }
         return final;
       });
       if (resultLines[0].length === 0) {
         resultLines.shift();
       }
-      results.push(resultLines.join("\r\n"));
+      last = resultLines.join("\r\n");
+      results.push(last);
     }
     if (debug) {
       console.log("run finished", { length, times, results });
