@@ -35,7 +35,7 @@ function PoeTry({ lstm, seeds, debug }) {
     let results = [];
     let last = randomSeed();
     for (let index = 0; index < times; index++) {
-      let seed = last;
+      let seed = randomSeed();
       let options = {
         seed: seed,
         length: length, // randomInt(25, 50),
@@ -49,12 +49,18 @@ function PoeTry({ lstm, seeds, debug }) {
           r = "  " + r.trim();
         }
         let words = r.split(" ");
-        if (words.length < 1) {
+        if (index === length - 1) {
+          // Remove the last word of the entire set
+          // because it's usually not a complete word
+          let popped = words.pop();
+        }
+        let finalEnders = popBadEnders(words);
+        let wordsWithoutWhitespace = finalEnders.filter(
+          i => i.trim().length > 1
+        );
+        if (wordsWithoutWhitespace.length < 1) {
           return "";
         }
-        // Remove the last word because it's usually not a complete word
-        let popped = words.pop();
-        let finalEnders = popBadEnders(words);
         if (finalEnders.length === 0) {
           return r;
         }
