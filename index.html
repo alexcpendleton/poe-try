@@ -56,6 +56,7 @@
     }
     function loadEmUp() {
       logg("Loading model...");
+      var debug = true;
       let lstm = {};
       let poe = {};
       let lstmLoader = lstmFromFiles;
@@ -76,11 +77,16 @@
       }
       async function modelLoaded() {
         logg("Model loaded!");
+
         poe = new PoeTry({
           lstm: lstm,
           seeds: window.lines,
-          debug: true
+          debug: debug
         });
+        window.poe = poe;
+        if (debug) {
+          console.log("poe", poe);
+        }
         generate();
       }
       window.generate = generate;
