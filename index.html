@@ -48,6 +48,7 @@
 
   <script type="text/javascript">
     function lstmFromFiles(callback) {
+      window.ml5.tf.setBackend("cpu", false);
       const modelDirectoryPath = "models/training";
       return new ml5.LSTMGenerator(modelDirectoryPath, callback);
     }
