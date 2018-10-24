@@ -25,7 +25,13 @@ function PoeTry({ lstm, seeds, debug }) {
     });
     return result;
   }
-  async function run({ times = 1, length = -1 } = {}) {
+  async function run(
+    { times, length, temperature, seed } = {
+      length: -1,
+      times: 1,
+      temperature: 0
+    }
+  ) {
     if (length === -1) {
       length = randomInt(256, 1024);
     }
@@ -34,12 +40,14 @@ function PoeTry({ lstm, seeds, debug }) {
     }
     let results = [];
     let last = randomSeed();
+    if (!seed) {
+      seed = randomSeed();
+    }
     for (let index = 0; index < times; index++) {
-      let seed = randomSeed();
       let options = {
         seed: seed,
         length: length, // randomInt(25, 50),
-        temperature: 0 // 0.7 // Math.random()
+        temperature: temperature
       };
       const generated = await lstm.generate(options);
       let resultLines = generated.split("\n").map((text, index, array) => {

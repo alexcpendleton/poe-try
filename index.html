@@ -65,7 +65,8 @@
 
       const target = document.getElementById("put-text-here");
       async function generate() {
-        let text = await poe.run();
+        let options = grabVars();
+        let text = await poe.run(options);
         target.innerText = text;
         const data = {
           poe,
@@ -74,6 +75,23 @@
         };
         document.dispatchEvent(new Event("PoeTry.generated", data));
         return data;
+      }
+      function grabVars() {
+        let searchParams = new URL(document.location).searchParams;
+        function qp(name, def) {
+          let value = searchParams.get(name)
+          if (value === null || value === undefined || value === "") {
+            value = def;
+          }
+          return value;
+        }
+        const vars = {
+          seed: qp("seed", null),
+          length: qp("length", -1),
+          times: 1,
+          temperature: qp("temperature", 0),
+        };
+        return vars;
       }
       async function modelLoaded() {
         logg("Model loaded!");
