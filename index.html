@@ -18,11 +18,43 @@
     a { color:hsl(17.4, 46.7%, 64%); }
     a:hover { color:hsla(17.4, 46.7%, 64%, 0.5); }
     a:visited { color:hsla(17.4, 46.7%, 64%, 0.75); }
-    .poe-try-text { font-family: serif; margin:1em;}
+    .poe-try-text { font-family: serif; margin:1em;position:relative}
     .about {color:hsl(85.1, 63%, 57.6%)}
     .make-a-new-poem {
       font-size: 1em;
       margin: 0.5em 0;
+    }
+    @keyframes spinner {
+      to {transform: rotate(360deg);}
+    }
+    .spinner {
+      display: none;
+      height: 20px;
+      margin: 0;
+      padding: 0;
+    }
+    .spinner.visible {
+      display: block;
+      width: 75px;
+      position: relative;
+    }
+    
+    .spinner:before {
+      content: '';
+      box-sizing: border-box;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      margin-top: -10px;
+      margin-left: -10px;
+      border-radius: 50%;
+      border: 1px solid #f6f;
+      border-top-color: #0e0;
+      border-right-color: #0dd;
+      border-bottom-color: #f90;
+      animation: spinner .6s linear infinite;
     }
   </style>
 </head>
@@ -30,6 +62,7 @@
 
 <body>
   <section aria-label="Where the robot's poem goes" aria-live="polite" class="poe-try-text">
+    <span class="spinner visible" aria-hidden="true"></span>
     <pre id="put-text-here"></pre>
   </section>
   <section aria-label="About poe-try" class="poe-try-text about">
@@ -65,17 +98,25 @@
       lstm = lstmLoader(modelLoaded);
 
       const target = document.getElementById("put-text-here");
+      const spinner = document.querySelector(".spinner");
+      const visibleClass = "visible";
       async function generate() {
         let options = grabVars();
-        let text = await poe.run(options);
-        target.innerText = text;
-        const data = {
-          poe,
-          text,
-          target
-        };
-        document.dispatchEvent(new Event("PoeTry.generated", data));
-        return data;
+        target.innerText = " ";
+        spinner.classList.add(visibleClass);
+
+        setTimeout(() => {
+          poe.run(options).then((text) => {
+            target.innerText = text;
+            spinner.classList.remove(visibleClass);
+            const data = {
+              poe,
+              text,
+              target
+            };
+            document.dispatchEvent(new Event("PoeTry.generated", data));
+          });
+        }, 0);
       }
       function grabVars() {
         let searchParams = new URL(document.location).searchParams;
