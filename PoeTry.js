@@ -46,7 +46,7 @@ function PoeTry({ lstm, seeds, debug }) {
     for (let index = 0; index < times; index++) {
       let options = {
         seed: seed,
-        length: length, // randomInt(25, 50),
+        length: length,
         temperature: temperature
       };
       const generated = await lstm.generate(options);
