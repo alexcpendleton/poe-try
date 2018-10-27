@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const distPath = path.join(__dirname, "./dist");
 const distWebPath = path.join(__dirname, "./dist/www");
-const zipPath = path.join(__dirname, "./dist/poe-try-itch.zip");
+const zipPath = path.join(__dirname, "./dist/www/poe-try.zip");
 const zip = new require("node-zip")();
 const rmdir = require("rimraf");
 console.log("🏗🏗🏗 starting 🏗🏗🏗");
