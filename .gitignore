@@ -4,3 +4,4 @@ checkpoints/*
 training/*
 node_modules/*
 logs/*
+dist/*

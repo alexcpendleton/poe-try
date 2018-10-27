@@ -6,7 +6,10 @@
   "scripts": {
     "prep": "source ml5/bin/activate && yarn clean && yarn train",
     "clean": "node clean.js",
-    "train": "python ../training-lstm/train.py --data_dir=training"
+    "train": "python ../training-lstm/train.py --data_dir=training",
+    "web-build": "node buildweb.js",
+    "web-start": "http-server ./",
+    "dist-web-start": "http-server dist -c-1 -o"
   },
   "author": "Alex Pendleton <alexcpendleton@gmail.com>",
   "license": "MIT",
@@ -14,5 +17,10 @@
     "ml5": "^0.1.1",
     "window": "^4.2.5",
     "xmlhttprequest": "^1.8.0"
+  },
+  "devDependencies": {
+    "http-server": "^0.11.1",
+    "node-zip": "^1.1.1",
+    "rimraf": "^2.6.2"
   }
 }
